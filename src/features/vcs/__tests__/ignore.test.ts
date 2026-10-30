@@ -5,13 +5,17 @@ const mocks = vi.hoisted(() => ({
   refresh: vi.fn(),
   failure: vi.fn(),
   open: vi.fn(),
+  notify: vi.fn(),
 }));
 vi.mock("@/platform/ipc", () => ({
   commands: { vcsAddToIgnore: mocks.write },
   call: async (result: Promise<unknown>) => result,
 }));
 vi.mock("@/features/project-tree/store", () => ({ reloadAll: mocks.reload }));
-vi.mock("@/workbench/contributions", () => ({ editorService: () => ({ openFile: mocks.open }) }));
+vi.mock("@/workbench/contributions", () => ({
+  editorService: () => ({ openFile: mocks.open }),
+  notifications: () => ({ notify: mocks.notify }),
+}));
 vi.mock("../store", () => ({ refreshNow: mocks.refresh }));
 vi.mock("../ops", () => ({
   runOp: async (_title: string, run: () => Promise<unknown>) => {
@@ -59,5 +63,16 @@ describe("ignore action", () => {
     mocks.write.mockResolvedValue(["/p/.git/info/exclude"]);
     await addToIgnore(["/p/a.txt"], "localExclude");
     expect(mocks.open).not.toHaveBeenCalled();
+  });
+  it("reports an already ignored selection instead of opening an unchanged file", async () => {
+    mocks.write.mockResolvedValue([]);
+    await addToIgnore(["/p/_exp"], "gitignore");
+    expect(mocks.notify).toHaveBeenCalledWith(expect.objectContaining({ title: "Already ignored" }));
+    expect(mocks.open).not.toHaveBeenCalled();
+  });
+  it("stays quiet after a failure", async () => {
+    mocks.write.mockRejectedValue(new Error("Refusing symlink path"));
+    await addToIgnore(["/p/_exp"], "gitignore");
+    expect(mocks.notify).not.toHaveBeenCalled();
   });
 });
