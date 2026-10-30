@@ -244,7 +244,7 @@ fn symlink_leaf_is_ignored_by_name_without_a_directory_slash() {
     std::fs::write(target.join("a.txt"), "x").unwrap();
     let link = fx.root.join("link-dir");
     symlink(&target, &link).unwrap();
-    add_to_ignore(&[link.clone()], Gitignore).unwrap();
+    add_to_ignore(std::slice::from_ref(&link), Gitignore).unwrap();
     assert_eq!(std::fs::read_to_string(fx.root.join(".gitignore")).unwrap(), "/link-dir\n");
     fx.ignored("link-dir");
     // Already covered: nothing is written and no link is refused.
