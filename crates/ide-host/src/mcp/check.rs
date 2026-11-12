@@ -11,7 +11,6 @@ use std::path::PathBuf;
 use std::time::{Duration, Instant};
 
 const DEFAULT_TIMEOUT_MS: usize = 30_000;
-const MAX_TIMEOUT_MS: usize = 300_000;
 const MAX_FILES: usize = 20;
 
 pub fn check_files() -> Tool {
@@ -45,7 +44,7 @@ the file on disk. Lines and UTF-16 columns are 1-based."
                 return Err(IdeError::invalid(format!("at most {MAX_FILES} files at a time")));
             }
             let errors_only = call.flag("errorsOnly", true)?;
-            let limit = timeout(&call, DEFAULT_TIMEOUT_MS, MAX_TIMEOUT_MS)?;
+            let limit = timeout(&call, DEFAULT_TIMEOUT_MS)?;
             let mut paths = Vec::new();
             for p in raw {
                 paths.push(call.resolve_readable(&p).await?);
