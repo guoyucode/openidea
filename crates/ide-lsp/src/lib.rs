@@ -39,7 +39,7 @@ mod virtual_doc;
 mod vue_navigation;
 
 pub use injections::{InjectedRange, InjectionProvider, MAX_INJECTED_DOCUMENT_BYTES};
-pub use inspect::{FileInspection, InspectHost, InspectOptions};
+pub use inspect::{CheckedServer, DocumentCheck, FileInspection, InspectHost, InspectOptions};
 pub use jdtls::jvm_inspect::JdtJvmInspector;
 pub use kotlin_lsp::{KotlinDebugServer, KotlinDebugUnavailable};
 pub use launch::{LaunchError, Launcher, ProcessLauncher};

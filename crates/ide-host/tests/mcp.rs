@@ -581,3 +581,19 @@ async fn agent_commands_run_in_named_tabs_and_report_what_the_user_did() {
     let missing = h.error("get_run_status", json!({"name": "nothing"})).await;
     assert!(missing.contains("no agent tab named `_agent_nothing`"), "{missing}");
 }
+
+#[tokio::test(flavor = "multi_thread")]
+async fn check_files_says_why_a_file_could_not_be_checked() {
+    let h = Harness::new();
+    let untrusted = h.json("check_files", json!({"filePaths": ["src/a.txt"]})).await;
+    assert_eq!(untrusted["files"][0]["status"], "untrusted", "{untrusted}");
+    h.trust().await;
+    let files = h.json("check_files", json!({"filePaths": ["src/a.txt", "src/gone.txt"], "timeout": 5000})).await;
+    assert_eq!(files["files"][0]["filePath"], "src/a.txt");
+    assert_eq!(files["files"][0]["status"], "noLanguageServer", "{files}");
+    assert_eq!(files["files"][0]["problems"], json!([]));
+    assert_eq!(files["files"][1]["status"], "failed", "{files}");
+    assert!(files["files"][1]["error"].is_string());
+    let none = h.error("check_files", json!({"filePaths": []})).await;
+    assert!(none.contains("at least one file"), "{none}");
+}
