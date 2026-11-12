@@ -7729,5 +7729,14 @@
   "Download Remote Files Into Folder": "将远程文件下载到文件夹",
   "Download Remote Host files into a local folder (arg: { server, paths, target })": "将远程主机中的文件下载到本地文件夹（参数：{ server, paths, target }）",
   "Delegate IDE build/run actions to Maven": "将 IDE 构建/运行操作委托给 Maven",
-  "Run and Debug build Maven modules with Maven (the project's javac) instead of the Java language server. Editor problems still come from the language server.": "运行和调试时用 Maven（项目的 javac）构建 Maven 模块，而不是用 Java 语言服务器。编辑器中的问题仍来自语言服务器。"
+  "Run and Debug build Maven modules with Maven (the project's javac) instead of the Java language server. Editor problems still come from the language server.": "运行和调试时用 Maven（项目的 javac）构建 Maven 模块，而不是用 Java 语言服务器。编辑器中的问题仍来自语言服务器。",
+  "Run Agent Command": "运行智能体命令",
+  "Runs `{ name, command, cwd, env }` from the MCP server's `run_command` in the agent tab `name`; throws when it did not start.": "在智能体标签 `name` 中运行 MCP 服务器 `run_command` 传来的 `{ name, command, cwd, env }`；未能启动时抛出错误。",
+  "Archived agent tabs: {count}": "已归档的智能体标签：{count}",
+  "Archived agent tabs": "已归档的智能体标签",
+  "Close All Archived Tabs": "关闭所有已归档标签",
+  "Finished agent tabs to show": "显示的已结束智能体标签数",
+  "Commands agents run appear in the Run tool window as _agent_ tabs. Beyond this many finished ones, the oldest move to the archive at the end of the tab strip. Running commands are never archived.": "智能体运行的命令以 _agent_ 标签显示在运行工具窗口中。已结束的标签超过这个数量时，最旧的会移入标签栏末尾的归档。正在运行的命令永远不会被归档。",
+  "Archived agent tabs to keep": "保留的已归档智能体标签数",
+  "Beyond this many archived agent tabs, the oldest are closed.": "已归档的智能体标签超过这个数量时，最旧的会被关闭。"
 }
